@@ -2,7 +2,7 @@
 <resources>
     <dimen name="growing_height">0dp</dimen>
     <dimen name="user_details_fragment_padding">16dp</dimen>
-    <dimen name="avatar_size">160</dimen>
+    <dimen name="avatar_size">160dp</dimen>
     <dimen name="list_item_horiz_padding">16dp</dimen>
     <dimen name="list_item_vert_padding">6dp</dimen>
 </resources>
