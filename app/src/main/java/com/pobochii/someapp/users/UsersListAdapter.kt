@@ -18,7 +18,7 @@ class UsersListAdapter(
 ) :
     ListAdapter<UserListItem, UserListItemViewHolder>(diffCallback), Filterable {
 
-    private lateinit var sourceItems: List<UserListItem>
+    private var sourceItems: List<UserListItem> = emptyList()
 
     init {
         setHasStableIds(true)
