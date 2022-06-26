@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pobochii.someapp.R
 import com.pobochii.someapp.Result
@@ -35,8 +36,9 @@ class UsersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        usersListAdapter = UsersListAdapter(UsersDiffCallback()) {
-            //todo: navigate to details screen
+        usersListAdapter = UsersListAdapter(UsersDiffCallback()) { userId ->
+            val toUserDetails = UsersFragmentDirections.navToUserDetails(userId)
+            findNavController().navigate(toUserDetails)
         }
     }
 
