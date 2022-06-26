@@ -58,27 +58,25 @@ class UsersFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.users.collect {
-                        when (it) {
-                            Result.Busy -> viewBinding.progressBar.visibility = View.VISIBLE
-                            is Result.Error -> {
-                                viewBinding.apply {
-                                    progressBar.visibility = View.GONE
-                                    noData.visibility = View.VISIBLE
-                                }
-                                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.users.collect {
+                    when (it) {
+                        Result.Busy -> viewBinding.progressBar.visibility = View.VISIBLE
+                        is Result.Error -> {
+                            viewBinding.apply {
+                                progressBar.visibility = View.GONE
+                                noData.visibility = View.VISIBLE
                             }
-                            is Result.Success -> {
-                                viewBinding.progressBar.visibility = View.GONE
-                                if (it.data.isEmpty()) {
-                                    viewBinding.noData.visibility = View.VISIBLE
-                                    return@collect
-                                }
-                                usersListAdapter.submitItems(it.data)
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Result.Success -> {
+                            viewBinding.progressBar.visibility = View.GONE
+                            if (it.data.isEmpty()) {
+                                viewBinding.noData.visibility = View.VISIBLE
+                                return@collect
                             }
+                            usersListAdapter.submitItems(it.data)
                         }
                     }
                 }

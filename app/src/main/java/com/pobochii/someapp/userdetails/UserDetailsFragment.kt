@@ -40,40 +40,38 @@ class UserDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.user.collect {
-                        when (it) {
-                            Result.Busy -> viewBinding.apply {
-                                progressBar.visibility = View.VISIBLE
-                                detailsGroup.visibility = View.INVISIBLE
-                            }
-                            is Result.Error -> {
-                                viewBinding.progressBar.visibility = View.GONE
-                                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                            }
-                            is Result.Success -> {
-                                val details = it.data
-                                Glide.with(viewBinding.avatar)
-                                    .load(details.profileImage)
-                                    .apply(RequestOptions().circleCrop())
-                                    .into(viewBinding.avatar)
-                                viewBinding.apply {
-                                    userName.text =
-                                        getString(R.string.label_user_name, details.userName)
-                                    reputation.text =
-                                        getString(R.string.label_reputation, details.reputation)
-                                    topTags.text =
-                                        getString(R.string.label_top_tags, details.topTags)
-                                    badges.text = getString(R.string.label_badges, details.badges)
-                                    location.text =
-                                        getString(R.string.label_location, details.location)
-                                    creationDate.text =
-                                        getString(R.string.label_create_date, details.creationDate)
-                                    progressBar.visibility = View.GONE
-                                    detailsGroup.visibility = View.VISIBLE
-                                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.user.collect {
+                    when (it) {
+                        Result.Busy -> viewBinding.apply {
+                            progressBar.visibility = View.VISIBLE
+                            detailsGroup.visibility = View.INVISIBLE
+                        }
+                        is Result.Error -> {
+                            viewBinding.progressBar.visibility = View.GONE
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Result.Success -> {
+                            val details = it.data
+                            Glide.with(viewBinding.avatar)
+                                .load(details.profileImage)
+                                .apply(RequestOptions().circleCrop())
+                                .into(viewBinding.avatar)
+                            viewBinding.apply {
+                                userName.text =
+                                    getString(R.string.label_user_name, details.userName)
+                                reputation.text =
+                                    getString(R.string.label_reputation, details.reputation)
+                                topTags.text =
+                                    getString(R.string.label_top_tags, details.topTags)
+                                badges.text = getString(R.string.label_badges, details.badges)
+                                location.text =
+                                    getString(R.string.label_location, details.location)
+                                creationDate.text =
+                                    getString(R.string.label_create_date, details.creationDate)
+                                progressBar.visibility = View.GONE
+                                detailsGroup.visibility = View.VISIBLE
                             }
                         }
                     }

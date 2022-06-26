@@ -25,9 +25,7 @@ class DateDeserializer : JsonDeserializer<Date> {
         json: JsonElement,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Date? {
-        return json.asLong?.let {
-            Date(it)
-        }
+    ): Date {
+        return Date(json.asLong)
     }
 }
