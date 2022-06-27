@@ -6,12 +6,16 @@ import androidx.lifecycle.viewModelScope
 import com.pobochii.someapp.domain.users.GetUsersSortedUseCase
 import com.pobochii.someapp.domain.users.Result
 import com.pobochii.someapp.utils.isInternetAvailable
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
-class UsersViewModel(
+@HiltViewModel
+class UsersViewModel @Inject constructor(
     application: Application,
     getUsers: GetUsersSortedUseCase
 ) : AndroidViewModel(application) {

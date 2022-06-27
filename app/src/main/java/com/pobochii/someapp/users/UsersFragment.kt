@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pobochii.someapp.R
 import com.pobochii.someapp.Result
 import com.pobochii.someapp.databinding.UsersFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UsersFragment : Fragment() {
     private lateinit var usersListAdapter: UsersListAdapter
     private lateinit var viewBinding: UsersFragmentBinding
-    private val viewModel by activityViewModels<UsersViewModel> {
-        UsersViewModelFactory(requireActivity().application)
-    }
+    private val viewModel by activityViewModels<UsersViewModel>()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.users_menu, menu)

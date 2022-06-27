@@ -2,6 +2,8 @@ plugins {
     kotlin("android")
     id("com.android.application")
     id("androidx.navigation.safeargs.kotlin")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -53,6 +55,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
     implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.google.dagger:hilt-android:2.42")
+    kapt("com.google.dagger:hilt-android-compiler:2.42")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
@@ -66,4 +70,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
     androidTestImplementation("androidx.navigation:navigation-testing:2.4.2")
     androidTestImplementation("androidx.fragment:fragment-testing:1.4.1")
+}
+
+kapt {
+    correctErrorTypes = true
 }

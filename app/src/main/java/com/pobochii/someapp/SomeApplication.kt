@@ -1,6 +1,7 @@
 package com.pobochii.someapp
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class SomeApplication: Application() {
-}
+@HiltAndroidApp
+class SomeApplication: Application()

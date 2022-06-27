@@ -7,12 +7,15 @@ import com.pobochii.someapp.domain.users.GetUserDetailsUseCase
 import com.pobochii.someapp.domain.users.Result
 import com.pobochii.someapp.domain.users.User
 import com.pobochii.someapp.utils.isInternetAvailable
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class UserDetailsViewModel(
+@HiltViewModel
+class UserDetailsViewModel @Inject constructor(
     application: Application,
     private val getUser: GetUserDetailsUseCase
 ) : AndroidViewModel(application) {

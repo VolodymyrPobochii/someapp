@@ -16,13 +16,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.pobochii.someapp.R
 import com.pobochii.someapp.Result
 import com.pobochii.someapp.databinding.UserDetailsFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
     private lateinit var viewBinding: UserDetailsFragmentBinding
-    private val viewModel by viewModels<UserDetailsViewModel> {
-        UserDetailsViewModelFactory(requireActivity().application)
-    }
+    private val viewModel by viewModels<UserDetailsViewModel>()
     private val args by navArgs<UserDetailsFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

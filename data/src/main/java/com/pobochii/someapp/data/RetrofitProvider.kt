@@ -19,13 +19,3 @@ object RetrofitProvider {
         .client(OkHttpClient.Builder().build())
         .build()
 }
-
-class DateDeserializer : JsonDeserializer<Date> {
-    override fun deserialize(
-        json: JsonElement,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): Date {
-        return Date(json.asLong)
-    }
-}

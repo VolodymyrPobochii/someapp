@@ -5,12 +5,15 @@ import com.pobochii.someapp.domain.users.Result
 import com.pobochii.someapp.domain.users.User
 import com.pobochii.someapp.domain.users.UsersRepository
 import retrofit2.awaitResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Implementation of [UsersRepository]
  * @property dataSource Users remote data source [UsersService]
  */
-class UsersDataRepository(private val dataSource: UsersService) : UsersRepository {
+@Singleton
+class UsersDataRepository @Inject constructor(private val dataSource: UsersService) : UsersRepository {
 
     private val cache: LruCache<Int, User?> = LruCache(30)
 
