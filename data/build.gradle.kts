@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pobochii.someapp"
+    namespace = "com.pobochii.someapp.data"
     compileSdk = 32
 
     defaultConfig {
