@@ -37,7 +37,10 @@ class UsersDataRepository(private val dataSource: UsersService) : UsersRepositor
         if (fetchUserResponse.hasError) {
             return Result.Error(fetchUserResponse.error)
         }
-        val userData = fetchUserResponse.items[0]
+        val users = fetchUserResponse.items
+        if (users.isEmpty()) {
+            return Result.Error("User not found")
+        }
         val userTopTags = dataSource.fetchUserTopTags(id)
         val userTopTagsResponse =
             userTopTags.awaitResponse().body() ?: return Result.Error("unknown")
@@ -45,7 +48,7 @@ class UsersDataRepository(private val dataSource: UsersService) : UsersRepositor
             return Result.Error(userTopTagsResponse.error)
         }
         val topTags = userTopTagsResponse.items.asSequence().map(TagData::asTag).toList()
-        val user = userData.asUser(topTags)
+        val user = users[0].asUser(topTags)
         cache.put(user.id, user)
         return Result.Success(user)
     }

@@ -7,32 +7,24 @@ import retrofit2.http.Path
 
 interface UsersService {
     @GET("users?order=desc&sort=reputation&pagesize=30&site=stackoverflow")
-    fun fetchUsers(): Call<FetchUsersResponse>
+    fun fetchUsers(): Call<BaseResponse<UserData>>
 
     @GET("users/{id}?site=stackoverflow")
-    fun fetchUser(@Path("id") userId: Int): Call<FetchUserResponse>
+    fun fetchUser(@Path("id") userId: Int): Call<BaseResponse<UserData>>
 
     @GET("users/{id}/top-tags?site=stackoverflow")
-    fun fetchUserTopTags(@Path("id") userId: Int): Call<FetchUserTopTagsResponse>
+    fun fetchUserTopTags(@Path("id") userId: Int): Call<BaseResponse<TagData>>
 }
 
-open class BaseResponse {
-    @SerializedName("error_id")
-    val errorId: Int = 0
+data class BaseResponse<out T>(
+    val items: List<T> = emptyList(),
+    @SerializedName("error_id") val errorId: Int = 0,
+    @SerializedName("error_message") val errorMessage: String = "",
+    @SerializedName("error_name") val errorName: String = ""
+)
 
-    @SerializedName("error_message")
-    val errorMessage: String = ""
-
-    @SerializedName("error_name")
-    val errorName: String = ""
-}
-
-val BaseResponse.hasError: Boolean
+val BaseResponse<Any>.hasError: Boolean
     get() = errorId > 0
 
-val BaseResponse.error: String
+val BaseResponse<Any>.error: String
     get() = "$errorName:$errorMessage"
-
-data class FetchUsersResponse(val items: List<UserData>) : BaseResponse()
-data class FetchUserResponse(val items: List<UserData>) : BaseResponse()
-data class FetchUserTopTagsResponse(val items: List<TagData>) : BaseResponse()
