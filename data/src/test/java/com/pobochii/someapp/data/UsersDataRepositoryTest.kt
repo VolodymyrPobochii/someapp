@@ -1,21 +1,17 @@
 package com.pobochii.someapp.data
 
-import android.util.LruCache
 import com.pobochii.someapp.domain.users.Result
-import com.pobochii.someapp.domain.users.User
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.mockito.internal.util.reflection.InstanceField
-import org.mockito.kotlin.*
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import retrofit2.Response
 import retrofit2.mock.Calls
 
 class UsersDataRepositoryTest {
-
-    private val mockCache = mock<LruCache<Int, User?>> {
-        on { get(any()) } doReturn null
-    }
 
     @Test
     fun findAll_Success_EmptyList() {
@@ -73,7 +69,6 @@ class UsersDataRepositoryTest {
         }
 
         val repository = UsersDataRepository(service)
-        InstanceField(repository.javaClass.getDeclaredField("cache"), repository).set(mockCache)
 
         val findUserResponse = runBlocking { repository.findById(userID) }
 
@@ -92,7 +87,6 @@ class UsersDataRepositoryTest {
         }
 
         val repository = UsersDataRepository(service)
-        InstanceField(repository.javaClass.getDeclaredField("cache"), repository).set(mockCache)
 
         val findUserResponse = runBlocking { repository.findById(userID) }
 
@@ -118,11 +112,9 @@ class UsersDataRepositoryTest {
         }
 
         val repository = UsersDataRepository(service)
-        InstanceField(repository.javaClass.getDeclaredField("cache"), repository).set(mockCache)
 
         val findUserResponse = runBlocking { repository.findById(userId) }
 
-        verify(mockCache, times(1)).get(userId)
         verify(service, times(1)).fetchUser(userId)
         assert(findUserResponse is Result.Error)
         val result = findUserResponse as Result.Error
